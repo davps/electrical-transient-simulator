@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="990" height="550">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			public function goClickEvent():void
+			{
+				mx.core.Application.application.clickBtnEventDispach();
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:VBox width="100%" height="550"  horizontalAlign="left">
+		<mx:Image id="circuitoPI" source="@Embed('assets/images/circuitoPI.png')"  alpha="1"/>
+		
+		
+		<mx:Form id="parametersForm" defaultButton="{fBtnRun}">
+		    <mx:FormHeading label="Circuit's parameters"/>
+			<mx:FormItem label="Vcc [Voltaje]">
+				<mx:TextInput id="fTxtVcc" text="120"/>
+			</mx:FormItem>
+			<mx:FormItem label="Zr [ohm]">
+				<mx:TextInput id="fTxtZr" text="90"/>
+			</mx:FormItem>
+			<mx:FormItem label="Zs [ohm]">
+				<mx:TextInput id="fTxtZs" text="0"/>
+			</mx:FormItem>
+			<mx:FormItem label="Zc [ohm]">
+				<mx:TextInput id="fTxtZc" text="30"/>
+			</mx:FormItem>
+			<mx:FormItem label="Period [us]">
+				<mx:TextInput id="fTxtT" text="3000"/>
+			</mx:FormItem>
+			<mx:FormItem label="Quantity of periods">
+				<mx:NumericStepper id="fStpNumPeriods" minimum="2" maximum="500" value="10" stepSize="1"/>
+			</mx:FormItem>
+			<mx:FormItem>
+				<mx:Button id="fBtnRun" click="{goClickEvent()}" label="Run">
+				</mx:Button>
+			</mx:FormItem>			
+		</mx:Form>
+	</mx:VBox>
+</mx:Canvas>

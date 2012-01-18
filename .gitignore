@@ -1,0 +1,12 @@
+#Tweener library
+src/caurina/
+
+#IDE 
+obj/
+Lineas.as3proj
+
+# Build and Release Folders
+bin/
+
+#OS
+Thumbs.db

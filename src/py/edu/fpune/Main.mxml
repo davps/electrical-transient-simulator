@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns="py.edu.fpune.*"
+	minWidth="990"
+	minHeight="550"
+	backgroundColor="0xffffff"
+	pageTitle="Fenómenos transitorios en líneas de transmisión" 
+	layout="absolute">
+	
+	<mx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			import flash.net.URLRequest;
+			import py.edu.fpune.transitorios.CelosiasDiagram;
+			import py.edu.fpune.transitorios.Grafico;
+			import py.edu.fpune.transitorios.Analisis;
+			
+			private var roR:Number;
+			private var roS:Number;
+			private var qtyPeriods:Number;
+			private var analisis:Analisis;
+			private var grafico:Grafico;
+			private var celosiasDiagram:CelosiasDiagram;
+			
+			private function buildGraphics():void
+			{
+				
+				// obtención de los datos del formulario 
+				// y conversión a los tipos de datos correspondientes 
+				var voltage:Number = parseFloat( homeView.fTxtVcc.text );
+				var period:Number = parseFloat( homeView.fTxtT.text );
+				if(period <100) period = 300;
+				var steps:Number = homeView.fStpNumPeriods.value - 1;
+				var zR:Number = parseFloat( homeView.fTxtZr.text );
+				var zC:Number = parseFloat( homeView.fTxtZc.text );
+				var zS:Number = parseFloat( homeView.fTxtZs.text );
+
+				//cálculo de los coeficientes de reflexión
+				this.roR = (zR - zC) / (zR + zC);
+				this.roS = (zS - zC) / (zS + zC);
+
+				this.analisis = new Analisis(voltage, roR, roS, period, steps, zC, zS);
+				this.grafico = new Grafico(analisis);
+				this.grafico.scaleX =  0.6;
+				this.grafico.scaleY =  0.6;
+				
+				this.celosiasDiagram = new CelosiasDiagram(this.analisis);
+				//this.celosiasDiagram.x = width - this.celosiasDiagram.width*1.2;
+				this.celosiasDiagram.scaleY = 0.5;
+				this.celosiasDiagram.scaleX = 1.03;
+				this.celosiasDiagram.y = 00;
+				this.celosiasDiagram.x = 35;
+				this.grafico.x = width - this.grafico.width*1.2;
+				
+				graphicsView.canvasForGraphic.rawChildren.addChild( this.grafico );
+				graphicsView.canvasForCelosiasDiagram.rawChildren.addChild(this.celosiasDiagram);
+				
+				//TODO: este listener todavía no funciona
+				grafico.analisis.periodTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onResetButton);				
+			}
+			public function onResetButton(e:TimerEvent):void
+			{
+//				graphicsView.buttonResetAll.enabled = true;
+			}
+			public function resetAll():void
+			{
+				graphicsView.enabled=false;
+				for each(var displayObject:DisplayObject in graphicsView.canvasForGraphic.rawChildren)
+				{
+					graphicsView.canvasForGraphic.rawChildren.removeChild(displayObject);
+				}
+				for each(displayObject in graphicsView.canvasForGraphic)
+				{
+					graphicsView.canvasForGraphic.removeChild(displayObject)
+				}
+
+//				graphicsView.canvasForGraphic.rawChildren.removeChild(this.grafico)
+				transientsView.selectedIndex=0;
+			}
+		]]>
+	</mx:Script>
+
+	<mx:VBox width="990" top="12">
+		<mx:Label text="Transients simulator on transmission lines using Lattice Diagrams" fontSize="25" fontWeight="bold"/>
+		<mx:Label text="Developed by David Pérez" fontSize="15" fontWeight="bold"/>
+
+		<mx:HBox width="100%">
+		</mx:HBox>
+		<mx:HBox>
+			<mx:Label text="   References about the theory: "></mx:Label>
+			<mx:LinkButton label="[1]" click="navigateToURL(new URLRequest('http://goo.gl/3M51c'))" />
+		</mx:HBox>
+		<mx:LinkButton label="Refresh this webpage" click="navigateToURL(new URLRequest('./lineas.swf'), '_parent')" />
+		<mx:ToggleButtonBar height="100%" dataProvider="{transientsView}"/>
+		<mx:ViewStack id="transientsView" width="100%" height="550" creationPolicy="all">
+			<HomeView id="homeView" label="Home" showEffect="WipeDown" hideEffect="WipeUp">
+				<mx:Script>
+					<![CDATA[
+						import mx.core.IChildList;					
+						public function set clickBtnRun(n:Boolean):void
+						{
+							
+						}
+						public function get clickBtnRun():Boolean
+						{
+							return true;
+						}
+						public function clickBtnEventDispach():void
+						{
+							trace('se ejecuto el metodo clickEventDispach!');
+							graphicsView.enabled = true;
+							transientsView.selectedIndex = 1;
+							buildGraphics();
+						}
+					]]>
+				</mx:Script>
+			</HomeView>
+			<GraphicsView id="graphicsView" label="Graphics" enabled="false" />
+		</mx:ViewStack>
+	</mx:VBox>
+</mx:Application>
