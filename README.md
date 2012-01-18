@@ -7,6 +7,7 @@ This repository contains the source code of a simulator of electrical transients
 This is a project that I developed in 2010 when I was studying Transmission of Energy at my university (Universidad Nacional del Este. 
 
 I make some simplifications:
+
 * The voltage source is DC
 * The software accept just pure resistive impedances
 
