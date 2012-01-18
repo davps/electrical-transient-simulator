@@ -27,6 +27,5 @@ I developed it using Flex 3 framework.
 
 A live demo can be found here
 
-......
-
+`https://github.com/davps/electrical-transient-simulator/blob/master/live-demo/Lineas.swf`
 
