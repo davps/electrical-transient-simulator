@@ -28,7 +28,7 @@ I developed it using Flex 3 framework.
 
 A live demo can be found here 
 
-`https://github.com/davps/electrical-transient-simulator/blob/master/live-demo/Lineas.swf`
+http://davps.github.com/electrical-transient-simulator/
 
 ###Abstract (in spanish)
 Utilizando Flex Framework y el lenguaje de programación ActionScript 3, el aplicativo simula el comportamiento de los fenómenos transitorios en líneas de transmisión, a partir de la obtención de datos de la impedancia de carga, impedancia de la línea de transimisión, y el voltaje y la impedancia de un generador de CC. La visualización de la simulación está compuesta por el diagrama de celosías y la curva del voltaje en el lado de la carga.
